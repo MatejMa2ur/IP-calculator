@@ -17,23 +17,23 @@ function showResults() {
 
     var hosts = ((2 ** (32 - pref)) - 2).toString();
 
-    var pomocNetwork = "";
-    var pomocBroadcast = "";
-    var pomocMask = "";
+    var helperNetwork = "";
+    var helperBroadcast = "";
+    var helperMask = "";
     for (var i = 0; i < ipAddress.length; i++) {
       if (i < pref) {
-        pomocNetwork += ipAddress[i];
-        pomocBroadcast += ipAddress[i];
-        pomocMask += "1";
+        helperNetwork += ipAddress[i];
+        helperBroadcast += ipAddress[i];
+        helperMask += "1";
       } else {
-        pomocNetwork += "0";
-        pomocBroadcast += "1";
-        pomocMask += "0";
+        helperNetwork += "0";
+        helperBroadcast += "1";
+        helperMask += "0";
       }
       if ((i + 1) % 8 == 0) {
-        subnetMask += "." + parseInt(pomocMask, 2); pomocMask = "";
-        network += "." + parseInt(pomocNetwork, 2); pomocNetwork = "";
-        broadcast += "." + parseInt(pomocBroadcast, 2); pomocBroadcast = "";
+        subnetMask += "." + parseInt(helperMask, 2); helperMask = "";
+        network += "." + parseInt(helperNetwork, 2); helperNetwork = "";
+        broadcast += "." + parseInt(helperBroadcast, 2); helperBroadcast = "";
       }
     }
 
