@@ -8,10 +8,9 @@ function showResults() {
   var ipCount = 0;
 
   if(ipAdd && prefix) {
-    var ipAddress = "";
+    var ipAddress;
     prefix = prefix.replace("/", "");
     var pref = parseInt(prefix);
-    ipCount = Array.from(ipAdd.split("."), (item, i) => ((256 ** (3 - i)) * parseInt(item))).reduce((a, c) => a + c);
 
     ipAddress = Array.from(ipAdd.split("."), item => (parseInt(item)).toString(2).padStart(8, '0')).join('');
 
@@ -30,12 +29,14 @@ function showResults() {
         helperBroadcast += "1";
         helperMask += "0";
       }
-      if ((i + 1) % 8 == 0) {
+      if ((i + 1) % 8 === 0) {
         subnetMask += "." + parseInt(helperMask, 2); helperMask = "";
         network += "." + parseInt(helperNetwork, 2); helperNetwork = "";
         broadcast += "." + parseInt(helperBroadcast, 2); helperBroadcast = "";
       }
     }
+
+    ipCount = ipToDecimal(ipAdd) - ipToDecimal(network.substr(1));
 
     document.getElementById('network').textContent = "Network: " + network.substr(1);
     document.getElementById('broadcast').textContent = "Broadcast: " + broadcast.substr(1);
@@ -43,4 +44,11 @@ function showResults() {
     document.getElementById('hosts').textContent = "Hosts: " + hosts;
     document.getElementById('ipCount').textContent = "IP count: " + ipCount.toString();
   }
+}
+
+
+function ipToDecimal(ipAdd) {
+  return ipAdd.split(".")
+    .map((octet, index) => parseInt(octet) * (256**(3-index)))
+    .reduce((acc, val) => acc + val, 0);
 }
